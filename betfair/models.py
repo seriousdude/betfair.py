@@ -29,7 +29,7 @@ class MarketDescription(BetfairModel):
     betting_type = Field(EnumType(constants.MarketBettingType), required=True)
     turn_in_play_enabled = Field(DataType(bool), required=True)
     market_type = Field(DataType(six.text_type), required=True)
-    regulator = Field(DataType(six.text_type), required=True)
+    regulator_ = Field(DataType(six.text_type), required=True)
     market_base_rate = Field(DataType(float), required=True)
     discount_allowed = Field(DataType(bool), required=True)
     wallet = Field(DataType(six.text_type))
