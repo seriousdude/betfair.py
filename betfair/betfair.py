@@ -52,10 +52,23 @@ class Betfair(object):
             raise exceptions.BetfairAuthError(response, data)
 
     def make_api_request(self, method, params, codes=None, model=None):
+        def _dthandler(obj):
+            """
+            fix datetime objects for JSON
+            """
+            # for datetime objects
+            if hasattr(obj, 'isoformat'):
+                return obj.isoformat()
+            # for enum objects
+            if hasattr(obj,'name'):
+                return obj.name
+            else:
+                raise TypeError('Object of type %s with value of %s is not JSON serializable$')
+
         payload = utils.make_payload(method, params)
         response = self.session.post(
             API_URL,
-            data=json.dumps(payload),
+            data=json.dumps(payload, default=_dthandler),
             headers=self.headers,
         )
         utils.check_status_code(response, codes=codes)
