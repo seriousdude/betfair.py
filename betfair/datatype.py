@@ -31,8 +31,10 @@ class ModelType(DataType):
 
     def unserialize(self, value):
         value = self.preprocess(value)
-        return self.type(**value)
-
+        if self.type == type ( value ):
+            return value
+        else:
+            return self.type(**value)
 
 def preprocess_date(date):
     if isinstance(date, datetime.datetime):
